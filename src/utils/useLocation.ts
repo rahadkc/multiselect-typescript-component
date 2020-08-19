@@ -6,7 +6,7 @@ import useDebounce from './useDebounce';
 const { REACT_APP_API_URL: URL } = process.env
 
 function useLocation (query: string | null, limit:number = 5) {
-  const debouncedQuery = useDebounce(query, 200)
+  const debouncedQuery = useDebounce(query, 400)
 
   const API_URL = debouncedQuery ? 
           `${URL}itemsPerPage=${limit}&query=${debouncedQuery}` : 

@@ -55,7 +55,7 @@ const Multiselect: React.FC<IindexProps> = (props) => {
       onRemove(i, t)
     }
   }
-  
+
   return (
     <SelectWrapper>
 

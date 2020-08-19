@@ -1,40 +1,35 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import axios from 'axios';
 import { AppDispatch, AppThunk } from '../../store/configureStore';
-import { ApiInterface } from './apiInterface';
 import { Location } from './location';
-
 
 const { reducer, actions } = createSlice({
   name: 'location',
   initialState: {
-    locations: [] as Location[]
+    locations: [] as Location[],
   },
   reducers: {
-    receiveLocations(state, action: PayloadAction<Location[]>) {
+    addLocations(state, action: PayloadAction<Location[]>) {
       state.locations = action.payload
     },
+    removeLocation(state, action: PayloadAction<number>) {
+      const index = state.locations.findIndex(d => d.id === action.payload)
+      state.locations.splice(index, 1)
+    }
   }
 })
 
 
 export default reducer
 
-
-export const loadLocations = (query: string | null, limit = 5): AppThunk => async (dispatch: AppDispatch) => {
-  const locations = await getLocations(query, limit);
-  dispatch(actions.receiveLocations(locations))
+export const addLocations = (
+  locations: Location[]
+  ): AppThunk => async (dispatch: AppDispatch) => {
+  dispatch(actions.addLocations(locations))
 }
 
+export const removeLocation = (
+  id: number
+  ): AppThunk => async (dispatch: AppDispatch) => {
 
-export async function getLocations(
-  query: string | null,
-  limit?: number
-  ): Promise<Location[]> {
-  
-  axios.defaults.headers.common["Content-Type"] = "application/json";
-
-  const response = await axios.get<ApiInterface>(process.env.REACT_APP_API_URL + `itemsPerPage=${limit}&query=${query}`)
-  
-  return response.data.results;
+  dispatch(actions.removeLocation(id))
 }

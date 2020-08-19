@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from "styled-components";
 import Multiselect from '../../components/multiselect';
-import useDebounce from '../../utils/useDebounce';
+import { RootState } from '../../store/reducer';
 import useLocation from '../../utils/useLocation';
-import { loadLocations } from './locationSlice';
+import { Location } from './location';
+import { addLocations } from './locationSlice';
 
 export interface SelectedType  {
   id?: number,
@@ -14,21 +15,16 @@ export interface SelectedType  {
 function LocationSearch() {
   const dispatch = useDispatch()
   const [query, setQuery] = useState<string | null>(null)
+  // const debouncedSearchQuery = useDebounce(query, 4000);
   const { data } = useLocation(query, 5)
-
-  const debouncedSearchQuery = useDebounce(query, 500);
-      
-  useEffect(() => {
-    dispatch(loadLocations(debouncedSearchQuery))
-  }, [dispatch, debouncedSearchQuery]);
-  
+  const locations = useSelector((state: RootState) => state.location.locations);
   
   function handleRemove(i: number, t: any) {
     // console.log(i, t, 'get removed index and removed item')
   }
 
-  function handleSelect(data: any) {
-    // console.log(data, 'get selected data')
+  function handleSelect(data: Location[]) {
+    dispatch(addLocations(data))
   }
 
   function handleKeyDown() {
@@ -40,8 +36,10 @@ function LocationSearch() {
   }
 
 
+  console.log(locations)
   return (
     <Container>
+      
       <Title>Select Locations</Title>
       <Multiselect
         fields={['name', 'admin1', 'country']} // Field to show on search list
@@ -56,7 +54,7 @@ function LocationSearch() {
   );
 }
 
-export default LocationSearch;
+export default React.memo(LocationSearch) ;
 
 const Container = styled.div`
   width: 600px;

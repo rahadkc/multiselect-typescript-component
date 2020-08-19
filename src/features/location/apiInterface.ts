@@ -1,4 +1,4 @@
-import { Location } from "./location";
+// import { Location } from "./location";
 
 export interface ApiInterface {
   count: number,
@@ -11,6 +11,6 @@ export interface ApiInterface {
   pages: number,
   query: string,
   radius: number,
-  results: Location[],
+  results: [],
   type: string
 }
