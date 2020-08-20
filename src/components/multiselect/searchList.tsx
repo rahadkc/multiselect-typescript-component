@@ -5,13 +5,14 @@ import ListItem from './listItem';
 interface Props  {
   data: [],
   onSelect: (e: any) => void,
-  fields: string[]
+  fields: string[],
+  dropRef: any
 }
 
-const SearchList: React.FC<Props> = ({ data, onSelect, fields }) => {
+const SearchList: React.FC<Props> = ({ data, onSelect, fields, dropRef }) => {
 
   return (
-    <SearchResult>
+    <SearchResult ref={dropRef}>
       {data && !data?.length && <NoResult>No location match</NoResult>}
       {data?.map((d, i) => <ListItem data={d} key={i} onSelect={onSelect} fields={fields} />)}
     </SearchResult>

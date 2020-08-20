@@ -34,7 +34,6 @@ function LocationSearch() {
     setQuery(val)
   }
 
-  // console.log(locations)
 
   return (
     <Container>
@@ -48,6 +47,8 @@ function LocationSearch() {
         onRemove={handleRemove}
         onKeyDown={handleKeyDown}
       />
+
+      <pre>{locations.length > 0 && JSON.stringify(locations, null, 4)}</pre>
 
     </Container>
   );
