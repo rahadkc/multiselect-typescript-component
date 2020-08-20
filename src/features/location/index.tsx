@@ -14,8 +14,7 @@ export interface SelectedType  {
 
 function LocationSearch() {
   const dispatch = useDispatch()
-  const [query, setQuery] = useState<string | null>(null)
-  // const debouncedSearchQuery = useDebounce(query, 4000);
+  const [query, setQuery] = useState<string | undefined>(undefined)
   const { data } = useLocation(query, 5)
   const locations = useSelector((state: RootState) => state.location.locations);
   
@@ -35,8 +34,8 @@ function LocationSearch() {
     setQuery(val)
   }
 
+  // console.log(locations)
 
-  console.log(locations)
   return (
     <Container>
       

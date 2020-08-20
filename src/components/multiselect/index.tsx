@@ -15,7 +15,6 @@ export interface IindexProps {
   loading?: boolean
 }
 
-
 const removesKey = [8, 46]
 
 
